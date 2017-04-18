@@ -6,7 +6,8 @@ library(ggvis)
 library(reshape)
 library(tidyr)
 library(plyr)
-setwd('/Users/vv/Google Drive/MSAN2017/SPRING_2017/MSAN-622-02_Data_and_Information_Visualization/HW2/vvrzheshch-viz/')
+
+#setwd('/Users/vv/Google Drive/MSAN2017/SPRING_2017/MSAN-622-02_Data_and_Information_Visualization/HW2/vvrzheshch-viz/')
 df_le <- read.csv('API_SP.DYN.LE00.IN_DS2_en_csv_v2.csv', skip=3)
 df_fr <- read.csv('API_SP.DYN.TFRT.IN_DS2_en_csv_v2.csv', skip=3)
 df_pop <- read.csv('API_SP.POP.TOTL_DS2_en_csv_v2.csv',skip=3)
@@ -85,10 +86,12 @@ server <- function(input, output) {
     #   legend=list(x=scaled_value("x", limits$lemax), y=scaled_value("y", limits$frmin)))) %>%
     # theme(plot.title = element_text(size = 12, vjust=2, family="Verdana", face="italic"),
     #       legend.position = 'left') %>%
+    layer_points() %>%
+    add_axis("x", title = "Life Expectancy (years per human body)") %>%
+    add_axis("y", title = "Fertility Rate (babies per woman)") %>%
     add_legend("fill", title="Region", properties = legend_props(legend = list(y = 150))) %>%
     add_legend("size", title="Population", properties = legend_props(legend = list(y = 50))) %>%
     add_tooltip(all_values, "hover") %>%
-    layer_points() %>%
     scale_numeric("x", domain = c(limits$lemin, limits$lemax), nice = T) %>%
     scale_numeric("y", domain = c(limits$frmin, limits$frmax), nice = T) %>%
     set_options(duration=0) %>%
