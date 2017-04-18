@@ -7,7 +7,6 @@ library(reshape)
 library(tidyr)
 library(plyr)
 
-#setwd('/Users/vv/Google Drive/MSAN2017/SPRING_2017/MSAN-622-02_Data_and_Information_Visualization/HW2/vvrzheshch-viz/')
 df_le <- read.csv('API_SP.DYN.LE00.IN_DS2_en_csv_v2.csv', skip=3)
 df_fr <- read.csv('API_SP.DYN.TFRT.IN_DS2_en_csv_v2.csv', skip=3)
 df_pop <- read.csv('API_SP.POP.TOTL_DS2_en_csv_v2.csv',skip=3)
@@ -64,7 +63,6 @@ ui <- fluidPage(
     checkboxGroupInput("regions", "Choose Regions to display:", choices = Regions, selected = Regions,
                        inline = FALSE, width = NULL, choiceNames = NULL, choiceValues = NULL)
   )
-  # ,  verbatimTextOutput("info")
 )
 
 server <- function(input, output) {
@@ -82,10 +80,6 @@ server <- function(input, output) {
 
   sub_df %>% 
     ggvis(x = ~le, y = ~fr, fill = ~factor(Region), size = ~Population) %>%
-    # add_legend("fill", properties=legend_props(
-    #   legend=list(x=scaled_value("x", limits$lemax), y=scaled_value("y", limits$frmin)))) %>%
-    # theme(plot.title = element_text(size = 12, vjust=2, family="Verdana", face="italic"),
-    #       legend.position = 'left') %>%
     layer_points() %>%
     add_axis("x", title = "Life Expectancy (years per human body)") %>%
     add_axis("y", title = "Fertility Rate (babies per woman)") %>%
@@ -95,7 +89,6 @@ server <- function(input, output) {
     scale_numeric("x", domain = c(limits$lemin, limits$lemax), nice = T) %>%
     scale_numeric("y", domain = c(limits$frmin, limits$frmax), nice = T) %>%
     set_options(duration=0) %>%
-      # legend=list(x=scaled_value("x", max(sub_df$le, na.rm=T)), y=scaled_value("y", (min(sub_df$fr, na.rm=T) + max(sub_df$fr, na.rm=T))/2)))) %>%
     bind_shiny("ggvis", "ggvis_ui")
   
 }
